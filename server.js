@@ -48,7 +48,11 @@ app.get("/", function (req, res) {
 
 app.get('/api', (req,res) =>{
   let date = new Date();
-  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} 00:00:00 GMT`;
+  
+  let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
+  let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
+  let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
+  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
   
   let result = {
     unix: date.getTime(),
@@ -70,7 +74,12 @@ app.get('/api/:date',(req,res) => {
   else if(!(/[-]/.test(req.params.date)))
   {
     let date = new Date(parseInt(req.params.date));
-    let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} 00:00:00 GMT`;  
+    
+    let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
+    let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
+    let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
+    let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
+
     return res.send({
       unix: date.getTime(),
       utc: convertedDate
@@ -78,7 +87,10 @@ app.get('/api/:date',(req,res) => {
   }
 
   let date = new Date(req.params.date);
-  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} 00:00:00 GMT`;
+  let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
+  let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
+  let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
+  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
 
   let result = {
     unix: date.getTime(),
