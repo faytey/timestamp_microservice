@@ -1,3 +1,3 @@
-let date = "2015/10/10";
+let date = new Date(Date.parse("25Mar2015"));
 let temp = new Date().getTime();
-console.log(/[-]/g.test(date));
+console.log(date.getHours());

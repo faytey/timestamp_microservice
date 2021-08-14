@@ -71,7 +71,7 @@ app.get('/api/:date',(req,res) => {
     return res.send({error: "Invalid Date"});
   }
 
-  else if(!(/[-]/.test(req.params.date)))
+  else if(!(/[-]/.test(req.params.date)) && parseInt(req.params.date))
   {
     let date = new Date(parseInt(req.params.date));
     
@@ -86,10 +86,13 @@ app.get('/api/:date',(req,res) => {
     });
   }
 
-  let date = new Date(req.params.date);
+  let date = new Date(Date.parse(req.params.date));
   let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
   let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
   let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
+
+  console.log(hours, minutes, seconds);
+
   let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
 
   let result = {
