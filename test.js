@@ -1,3 +1,3 @@
-let date = new Date(Date.parse("25Mar2015"));
-let temp = new Date().getTime();
-console.log(date.getHours());
+let date = new Date("2015-05-15")
+let temp = new Date(Number("-619574400000"));
+console.log(temp);

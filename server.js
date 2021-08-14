@@ -6,33 +6,6 @@ var express = require('express');
 var app = express();
 const port = process.env.PORT || 8000;
 
-let dayMap = {
-  0: "Sun",
-  1: "Mon",
-  2: "Tue",
-  3: "Wed",
-  4: "Thu",
-  5: "Fri",
-  6: "Sat",
-};
-
-let monthMap = 
-{
-  0: "Jan",
-  1: "Feb",
-  2: "Mar",
-  3: "Apr",
-  4: "May",
-  5: "Jun",
-  6: "Jul",
-  7: "Aug",
-  8: "Sep",
-  9: "Oct",
-  10: "Nov",
-  11: "Dec",
-};
-
-
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
@@ -49,14 +22,9 @@ app.get("/", function (req, res) {
 app.get('/api', (req,res) =>{
   let date = new Date();
   
-  let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
-  let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
-  let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
-  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
-  
   let result = {
     unix: date.getTime(),
-    utc: convertedDate
+    utc: date.toUTCString()
   }
 
   res.send(result);
@@ -64,44 +32,33 @@ app.get('/api', (req,res) =>{
 
 app.get('/api/:date',(req,res) => {
 
+  //Handling data parameters with invalid format
 
-  if(!parseInt(req.params.date))
+  if(!Date.parse(req.params.date))
   {
-    console.log("This shit is running");
     return res.send({error: "Invalid Date"});
   }
 
 
-  //Checking for conditions when date parameter is given in microseconds
-  else if(!(/[-]/.test(req.params.date)) && parseInt(req.params.date))
+  //Checking for conditions when date parameter is given in microseconds.
+  
+  else if(!(/[-]/.test(req.params.date)) && Number(req.params.date))
   {
-    let date = new Date(parseInt(req.params.date));
-    
-    let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
-    let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
-    let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
-    let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
+    let date = new Date(Number(req.params.date));
 
     return res.send({
       unix: date.getTime(),
-      utc: convertedDate
+      utc: date.toUTCString()
     });
   } 
 
   //For handling regular test cases when date parameter is in a valid date format.
 
-  let date = new Date(Date.parse(req.params.date));
-  let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
-  let minutes = date.getMinutes()<10 ? "0"+date.getMinutes() : String(date.getMinutes()); 
-  let seconds = date.getSeconds()<10 ? "0"+date.getSeconds() : String(date.getSeconds());
-
-  console.log(hours, minutes, seconds);
-
-  let convertedDate = `${dayMap[date.getDay()]}, ${date.getDate()} ${monthMap[date.getMonth()]} ${date.getFullYear()} ${hours}:${minutes}:${seconds} GMT`;
+  let date = new Date(req.params.date);
 
   let result = {
     unix: date.getTime(),
-    utc: convertedDate
+    utc: date.toUTCString()
   }
 
   res.status(200).send(result);
