@@ -34,14 +34,14 @@ app.get('/api/:date',(req,res) => {
 
   //Handling data parameters with invalid format
 
-  if(!Date.parse(req.params.date))
+  if(!Date.parse(req.params.date) && !Number(req.params.date))
   {
     return res.send({error: "Invalid Date"});
   }
 
 
   //Checking for conditions when date parameter is given in microseconds.
-  
+
   else if(!(/[-]/.test(req.params.date)) && Number(req.params.date))
   {
     let date = new Date(Number(req.params.date));
