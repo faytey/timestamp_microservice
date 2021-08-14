@@ -71,6 +71,8 @@ app.get('/api/:date',(req,res) => {
     return res.send({error: "Invalid Date"});
   }
 
+
+  //Checking for conditions when date parameter is given in microseconds
   else if(!(/[-]/.test(req.params.date)) && parseInt(req.params.date))
   {
     let date = new Date(parseInt(req.params.date));
@@ -84,7 +86,9 @@ app.get('/api/:date',(req,res) => {
       unix: date.getTime(),
       utc: convertedDate
     });
-  }
+  } 
+
+  //For handling regular test cases when date parameter is in a valid date format.
 
   let date = new Date(Date.parse(req.params.date));
   let hours = date.getHours()<10 ? "0"+date.getHours() : String(date.getHours());
