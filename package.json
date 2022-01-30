@@ -1,6 +1,6 @@
 {
 	"name": "fcc-api-projects-boilerplate",
-	"author": "Faith M. Roberts"
+	"author": "Faith M. Roberts",
 	"version": "0.0.1",
 	"description": "Timestamp Microservice Challenge",
 	"main": "server.js",
